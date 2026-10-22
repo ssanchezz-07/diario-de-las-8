@@ -118,7 +118,8 @@ footer{margin-top:40px;padding-top:14px;border-top:1px solid var(--line);font-si
     if (!s.noticias.length) ul.appendChild(el('li','vacio','Hoy no han llegado noticias de esta sección.'));
     s.noticias.forEach(function(n,i){
       var li = el('li','item'+(i===0?' lead':''));
-      var h3 = el('h3'), a = el('a',null,n.t); a.href = n.u; a.target = '_blank'; a.rel = 'noopener';
+      var h3 = el('h3'), a = el('a',null,n.t);
+      if (/^https?:\/\//i.test(n.u)) { a.href = n.u; a.target = '_blank'; a.rel = 'noopener'; }
       h3.appendChild(a); li.appendChild(h3);
       if (n.r) li.appendChild(el('p',null,n.r));
       li.appendChild(el('span','src',n.f));

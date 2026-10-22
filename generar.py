@@ -99,8 +99,11 @@ def leer_rss(url):
             fecha = parsedate_to_datetime(item.findtext("pubDate"))
         except Exception:
             fecha = None
+        enlace = (item.findtext("link") or "").strip()
+        if urllib.parse.urlparse(enlace).scheme not in ("http", "https"):
+            enlace = ""
         salida.append({"t": titulo, "r": resumen, "f": limpiar(fuente, 60),
-                       "u": item.findtext("link") or "", "fecha": fecha})
+                       "u": enlace, "fecha": fecha})
     return salida
 
 
@@ -176,7 +179,8 @@ def main():
     datos["claves"] = [s["noticias"][0]["t"] for s in datos["secciones"][:3] if s["noticias"]]
 
     plantilla = (Path(__file__).parent / "plantilla.html").read_text(encoding="utf-8")
-    json_seguro = json.dumps(datos, ensure_ascii=False).replace("</", "<\\/")
+    json_seguro = (json.dumps(datos, ensure_ascii=False)
+                   .replace("<", "\\u003c").replace(">", "\\u003e").replace("&", "\\u0026"))
     SALIDA.parent.mkdir(exist_ok=True)
     SALIDA.write_text(plantilla.replace("__DATOS__", json_seguro), encoding="utf-8")
     total = sum(len(s["noticias"]) for s in datos["secciones"])
