@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Diario de las 8</title>
+<meta name="theme-color" content="#F3F5F4">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icono.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icono-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,650;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#F3F5F4; --paper:#FFFFFF; --ink:#16222E; --ink-2:#465463; --ink-3:#6E7B88;
+  --line:#DCE2E3; --accent:#1C5E86; --accent-soft:#E2EDF3; --sun:#B86E00;
+  --up:#1E7A4C; --down:#B3372B;
+  --serif:"Source Serif 4",Georgia,serif;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#0F161D; --paper:#16202A; --ink:#E6ECF0; --ink-2:#B3BFC9; --ink-3:#8795A2;
+  --line:#26333F; --accent:#7DB8DB; --accent-soft:#1B2E3C; --sun:#E3A33A;
+  --up:#5CC08C; --down:#EE7A6E;
+}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 var(--sans);padding:env(safe-area-inset-top) 16px 48px}
+.wrap{max-width:860px;margin:0 auto}
+a{color:var(--accent)}
+header.mast{padding-block:28px 18px;border-bottom:2px solid var(--ink);display:grid;gap:6px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);display:flex;flex-wrap:wrap;gap:6px 14px}
+.eyebrow .sun{color:var(--sun)}
+h1{font-family:var(--serif);font-weight:700;font-size:clamp(34px,7vw,52px);line-height:1.02;margin:0;letter-spacing:-.01em}
+.dateline{font-family:var(--serif);font-size:19px;color:var(--ink-2);margin:0}
+.viejo{display:none;margin-top:8px;font-size:13px;color:var(--down)}
+nav.tabs{position:sticky;top:0;z-index:5;background:var(--bg);padding-block:10px;border-bottom:1px solid var(--line);display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}
+nav.tabs::-webkit-scrollbar{display:none}
+nav.tabs a{flex:none;text-decoration:none;font-size:13px;font-weight:500;color:var(--ink-2);padding:6px 12px;border:1px solid var(--line);border-radius:999px;background:var(--paper)}
+nav.tabs a:hover{border-color:var(--accent);color:var(--accent)}
+.brief{margin-block:22px 8px;background:var(--accent-soft);border-radius:10px;padding:16px 18px}
+.brief h2{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:0 0 8px;font-weight:500}
+.brief ul{margin:0;padding-left:18px;display:grid;gap:6px}
+section.sec{padding-top:30px;scroll-margin-top:60px}
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;border-bottom:1px solid var(--ink);padding-bottom:6px;margin-bottom:4px}
+.sec-head h2{font-family:var(--serif);font-weight:650;font-size:26px;margin:0}
+.sec-head .scope{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.items{list-style:none;margin:0;padding:0}
+.item{padding-block:14px;border-bottom:1px solid var(--line);display:grid;gap:4px}
+.item:last-child{border-bottom:0}
+.item h3{font-family:var(--serif);font-weight:650;font-size:19px;line-height:1.25;margin:0}
+.item h3 a{color:inherit;text-decoration:none}
+.item h3 a:hover{color:var(--accent)}
+.item p{margin:0;color:var(--ink-2);max-width:68ch}
+.src{font-size:12.5px;color:var(--ink-3)}
+.item.lead h3{font-size:22px}
+.vacio{color:var(--ink-3);padding-block:14px}
+.board{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-top:14px}
+.tick{background:var(--paper);padding:10px 12px;display:grid;gap:2px}
+.tick .n{font-size:12px;color:var(--ink-3)}
+.tick .v{font-family:var(--mono);font-size:17px;font-weight:500;font-variant-numeric:tabular-nums}
+.tick .c{font-family:var(--mono);font-size:12.5px;font-variant-numeric:tabular-nums}
+.up{color:var(--up)} .down{color:var(--down)} .flat{color:var(--ink-3)}
+.board-note{font-size:12px;color:var(--ink-3);margin-top:6px}
+.alert{margin-top:14px;border-left:3px solid var(--sun);padding:8px 12px;background:var(--paper);font-size:14px;border-radius:0 8px 8px 0}
+footer{margin-top:40px;padding-top:14px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink-3);display:grid;gap:4px}
+@media (max-width:480px){.item h3{font-size:18px}.item.lead h3{font-size:20px}}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+</style>
+</head>
+<body>
+<script type="application/json" id="datos">__DATOS__</script>
+<div class="wrap">
+  <header class="mast">
+    <div class="eyebrow"><span>Edición automática · Málaga</span><span class="sun" id="hora"></span></div>
+    <h1>Diario de las 8</h1>
+    <p class="dateline" id="fecha"></p>
+    <p class="viejo" id="viejo">Esta edición no es de hoy: la actualización automática ha fallado o aún no ha llegado.</p>
+  </header>
+  <nav class="tabs" id="tabs" aria-label="Secciones"></nav>
+  <div class="brief"><h2>En 30 segundos</h2><ul id="claves"></ul></div>
+  <div id="cuerpo"></div>
+  <footer>
+    <span>Se actualiza solo cada mañana. Titulares tomados de los RSS de cada medio; cada noticia enlaza a su fuente.</span>
+    <span>Mercados: Yahoo Finance, con retraso. No es asesoramiento financiero.</span>
+  </footer>
+</div>
+<script>
+(function(){
+  var D = JSON.parse(document.getElementById('datos').textContent);
+  function el(tag, cls, txt){var e=document.createElement(tag); if(cls) e.className=cls; if(txt!=null) e.textContent=txt; return e;}
+  document.getElementById('fecha').textContent = D.fecha_texto;
+  document.getElementById('hora').textContent = '● ' + D.generado;
+  var hoy = new Date().toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  if (hoy.toLowerCase() !== D.fecha_texto.toLowerCase()) document.getElementById('viejo').style.display = 'block';
+  var cl = document.getElementById('claves');
+  D.claves.forEach(function(c){cl.appendChild(el('li',null,c));});
+
+  var tabs = document.getElementById('tabs'), cuerpo = document.getElementById('cuerpo');
+  D.secciones.forEach(function(s){
+    var a = el('a',null,s.titulo); a.href = '#' + s.id; tabs.appendChild(a);
+    var sec = el('section','sec'); sec.id = s.id;
+    var h = el('div','sec-head'); h.appendChild(el('h2',null,s.titulo)); h.appendChild(el('span','scope',s.ambito)); sec.appendChild(h);
+    if (s.id === 'economia' && D.mercados.length) {
+      var b = el('div','board');
+      D.mercados.forEach(function(t){
+        var d = el('div','tick');
+        d.appendChild(el('span','n',t.n)); d.appendChild(el('span','v',t.v));
+        var cls = t.c>0?'up':(t.c<0?'down':'flat'), sign = t.c>0?'▲ +':(t.c<0?'▼ ':'');
+        d.appendChild(el('span','c '+cls, sign + t.c.toFixed(2).replace('.',',') + ' %'));
+        b.appendChild(d);
+      });
+      sec.appendChild(b);
+      sec.appendChild(el('p','board-note','Último precio frente al cierre anterior.'));
+    }
+    var ul = el('ul','items');
+    if (!s.noticias.length) ul.appendChild(el('li','vacio','Hoy no han llegado noticias de esta sección.'));
+    s.noticias.forEach(function(n,i){
+      var li = el('li','item'+(i===0?' lead':''));
+      var h3 = el('h3'), a = el('a',null,n.t); a.href = n.u; a.target = '_blank'; a.rel = 'noopener';
+      h3.appendChild(a); li.appendChild(h3);
+      if (n.r) li.appendChild(el('p',null,n.r));
+      li.appendChild(el('span','src',n.f));
+      ul.appendChild(li);
+    });
+    sec.appendChild(ul);
+    if (s.id === 'fiscal' && D.aviso_fiscal) sec.appendChild(el('div','alert',D.aviso_fiscal));
+    cuerpo.appendChild(sec);
+  });
+})();
+</script>
+</body>
+</html>
